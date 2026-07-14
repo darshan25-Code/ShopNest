@@ -1,17 +1,43 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { FaStar, FaHeart, FaTruck, FaShieldAlt } from "react-icons/fa";
 import { MdReplay } from "react-icons/md";
 import { useCart } from "../context/CartContext";
-import products from "../data/products";
+import { getProduct } from "../api/productApi";
 
 const ProductDetails = () => {
   const { id } = useParams();
   const { addToCart } = useCart();
 
-  const product = products.find((item) => item.id === Number(id));
+  const [product, setProduct] = useState(null);
+const [loading, setLoading] = useState(true);
+
+useEffect(() => {
+  fetchProduct();
+}, [id]);
+
+const fetchProduct = async () => {
+  try {
+    const res = await getProduct(id);
+    setProduct(res.data.product);
+  } catch (error) {
+    console.log(error);
+  } finally {
+    setLoading(false);
+  }
+};
 
   const [quantity, setQuantity] = useState(1);
+
+  if (loading) {
+  return (
+    <div className="flex justify-center items-center h-[70vh]">
+      <h1 className="text-3xl font-bold">
+        Loading Product...
+      </h1>
+    </div>
+  );
+}
 
   if (!product) {
     return (

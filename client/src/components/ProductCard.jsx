@@ -9,7 +9,7 @@ const ProductCard = ({ product }) => {
     <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
       
       {/* Product Image & Info */}
-      <Link to={`/product/${product.id}`}>
+      <Link to={`/product/${product._id}`}>
         <img
           src={product.image}
           alt={product.name}

@@ -23,12 +23,12 @@ useEffect(() => {
 
     setCart((prevCart) => {
       const existingProduct = prevCart.find(
-        (item) => item.id === product.id
+        (item) => item._id === product._id
       );
 
       if (existingProduct) {
         return prevCart.map((item) =>
-          item.id === product.id
+          item._id === product._id
             ? { ...item, quantity: item.quantity + 1 }
             : item
         );
@@ -41,7 +41,7 @@ useEffect(() => {
   const increaseQuantity = (id) => {
   setCart((prevCart) =>
     prevCart.map((item) =>
-      item.id === id
+      item._id === id
         ? { ...item, quantity: item.quantity + 1 }
         : item
     )
@@ -51,7 +51,7 @@ useEffect(() => {
 const decreaseQuantity = (id) => {
   setCart((prevCart) =>
     prevCart.map((item) =>
-      item.id === id
+      item._id === id
         ? { ...item, quantity: item.quantity - 1 }
         : item
     ).filter((item) => item.quantity > 0)
@@ -60,7 +60,7 @@ const decreaseQuantity = (id) => {
 
 const removeFromCart = (id) => {
   setCart((prevCart) =>
-    prevCart.filter((item) => item.id !== id)
+    prevCart.filter((item) => item._id !== id)
   );
 };
 
