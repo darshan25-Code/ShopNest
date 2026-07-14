@@ -28,6 +28,7 @@ export const AuthProvider = ({ children }) => {
         user,
         login,
         logout,
+        setUser,
       }}
     >
       {children}
