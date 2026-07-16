@@ -31,4 +31,12 @@ export const deleteProduct = (id) =>
     },
   });
 
+  export const addReview = (id, reviewData) => {
+  return API.post(`/products/${id}/reviews`, reviewData, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
+};
+
 export default API;

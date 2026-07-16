@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { changePassword } from "../api/userApi";
+import { toast } from "react-toastify";
 
 const ChangePassword = () => {
   const navigate = useNavigate();
@@ -24,7 +25,7 @@ const ChangePassword = () => {
     e.preventDefault();
 
     if (formData.newPassword !== formData.confirmPassword) {
-      alert("New Password and Confirm Password do not match.");
+      toast.warning("New Password and Confirm Password do not match.");
       return;
     }
 
@@ -36,12 +37,12 @@ const ChangePassword = () => {
         newPassword: formData.newPassword,
       });
 
-      alert(res.data.message);
+      toast.success(res.data.message);
 
       navigate("/profile");
 
     } catch (error) {
-      alert(
+      toast.error(
         error.response?.data?.message || "Password change failed."
       );
     } finally {

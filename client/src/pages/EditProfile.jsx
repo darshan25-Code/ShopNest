@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getProfile, updateProfile } from "../api/userApi";
 import { useAuth } from "../context/AuthContext";
+import { toast } from "react-toastify";
 
 const EditProfile = () => {
   const navigate = useNavigate();
@@ -52,12 +53,12 @@ const EditProfile = () => {
       // Update navbar instantly
       setUser(res.data.user);
 
-      alert(res.data.message);
+      toast.success(res.data.message);
 
       navigate("/profile");
 
     } catch (error) {
-      alert(error.response?.data?.message || "Update Failed");
+      toast.error(error.response?.data?.message || "Update Failed");
     } finally {
       setSaving(false);
     }

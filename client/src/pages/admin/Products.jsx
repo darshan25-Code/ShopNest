@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getProducts, deleteProduct } from "../../api/productApi";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
@@ -31,13 +32,13 @@ const Products = () => {
     try {
       const res = await deleteProduct(id);
 
-      alert(res.data.message);
+      toast.success(res.data.message);
 
       // Refresh product list
       fetchProducts();
 
     } catch (error) {
-      alert(
+      toast.error(
         error.response?.data?.message ||
           "Failed to delete product."
       );

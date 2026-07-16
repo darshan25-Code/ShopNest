@@ -1,26 +1,36 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import { useAuth } from "./AuthContext";
 
 const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
-  const [cart, setCart] = useState(() => {
-  const savedCart = localStorage.getItem("cart");
+  const { user } = useAuth();
 
-  return savedCart ? JSON.parse(savedCart) : [];
-});
+  const getUserCart = () => {
+    if (!user) return [];
 
-useEffect(() => {
-  localStorage.setItem("cart", JSON.stringify(cart));
-}, [cart]);
+    const savedCart = localStorage.getItem(`cart_${user._id}`);
+    return savedCart ? JSON.parse(savedCart) : [];
+  };
 
-  // Debug: Log cart whenever it changes
+  const [cart, setCart] = useState(getUserCart);
+
+  // Reload cart whenever user changes
   useEffect(() => {
-    console.log("Current Cart:", cart);
-  }, [cart]);
+    setCart(getUserCart());
+  }, [user]);
+
+  // Save cart for current user
+  useEffect(() => {
+    if (!user) return;
+
+    localStorage.setItem(
+      `cart_${user._id}`,
+      JSON.stringify(cart)
+    );
+  }, [cart, user]);
 
   const addToCart = (product) => {
-    console.log("addToCart called");
-
     setCart((prevCart) => {
       const existingProduct = prevCart.find(
         (item) => item._id === product._id
@@ -29,39 +39,64 @@ useEffect(() => {
       if (existingProduct) {
         return prevCart.map((item) =>
           item._id === product._id
-            ? { ...item, quantity: item.quantity + 1 }
+            ? {
+                ...item,
+                quantity: item.quantity + 1,
+              }
             : item
         );
       }
 
-      return [...prevCart, { ...product, quantity: 1 }];
+      return [
+        ...prevCart,
+        {
+          ...product,
+          quantity: 1,
+        },
+      ];
     });
   };
 
   const increaseQuantity = (id) => {
-  setCart((prevCart) =>
-    prevCart.map((item) =>
-      item._id === id
-        ? { ...item, quantity: item.quantity + 1 }
-        : item
-    )
-  );
-};
+    setCart((prevCart) =>
+      prevCart.map((item) =>
+        item._id === id
+          ? {
+              ...item,
+              quantity: item.quantity + 1,
+            }
+          : item
+      )
+    );
+  };
 
-const decreaseQuantity = (id) => {
-  setCart((prevCart) =>
-    prevCart.map((item) =>
-      item._id === id
-        ? { ...item, quantity: item.quantity - 1 }
-        : item
-    ).filter((item) => item.quantity > 0)
-  );
-};
+  const decreaseQuantity = (id) => {
+    setCart((prevCart) =>
+      prevCart
+        .map((item) =>
+          item._id === id
+            ? {
+                ...item,
+                quantity: item.quantity - 1,
+              }
+            : item
+        )
+        .filter((item) => item.quantity > 0)
+    );
+  };
 
-const removeFromCart = (id) => {
-  setCart((prevCart) =>
-    prevCart.filter((item) => item._id !== id)
-  );
+  const removeFromCart = (id) => {
+    setCart((prevCart) =>
+      prevCart.filter((item) => item._id !== id)
+    );
+  };
+
+  const clearCart = () => {
+  if (user) {
+    localStorage.removeItem(`cart_${user._id}`);
+  }
+
+  setCart([]);
 };
 
   return (
@@ -71,7 +106,8 @@ const removeFromCart = (id) => {
         addToCart,
         increaseQuantity,
         decreaseQuantity,
-        removeFromCart
+        removeFromCart,
+        clearCart,
       }}
     >
       {children}

@@ -1,4 +1,5 @@
 import { useCart } from "../context/CartContext";
+import { Link } from "react-router-dom";
 
 const Cart = () => {
   const {
@@ -143,9 +144,12 @@ const Cart = () => {
             <span>₹{totalPrice}</span>
           </div>
 
-          <button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg transition">
-            Proceed to Checkout
-          </button>
+          <Link
+  to="/checkout"
+  className="block text-center mt-6 bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-semibold"
+>
+  Proceed to Checkout
+</Link>
 
         </div>
 

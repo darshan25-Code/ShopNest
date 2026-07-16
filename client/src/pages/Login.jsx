@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { loginUser } from "../api/authApi";
 import { useAuth } from "../context/AuthContext";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -31,11 +32,11 @@ const Login = () => {
 
     login(res.data.user, res.data.token);
 
-    alert("Login Successful");
+    toast.success("Login Successful");
 
     navigate("/");
   } catch (error) {
-    alert(
+    toast.error(
       error.response?.data?.message || "Login Failed"
     );
   } finally {

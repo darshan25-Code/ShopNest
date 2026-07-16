@@ -15,6 +15,11 @@ import AdminDashboard from "../pages/AdminDashboard";
 import Products from "../pages/admin/Products";
 import AddProduct from "../pages/admin/AddProduct";
 import EditProduct from "../pages/admin/EditProduct";
+import Users from "../pages/admin/Users";
+import Checkout from "../pages/Checkout";
+import MyOrders from "../pages/MyOrders";
+import Orders from "../pages/admin/Orders";
+import OrderDetails from "../pages/OrderDetails";
 
 const AppRoutes = () => {
   return (
@@ -77,7 +82,49 @@ const AppRoutes = () => {
             </AdminRoute>
           }
         />
+           <Route
+        path="/admin/users"
+        element={
+          <AdminRoute>
+            <Users />
+          </AdminRoute>
+        }
+      />
+      <Route
+  path="/checkout"
+  element={
+    <ProtectedRoute>
+      <Checkout />
+    </ProtectedRoute>
+  }
+/>
+<Route
+  path="/my-orders"
+  element={
+    <ProtectedRoute>
+      <MyOrders />
+    </ProtectedRoute>
+  }
+/>
+<Route
+  path="/admin/orders"
+  element={
+    <AdminRoute>
+      <Orders />
+    </AdminRoute>
+  }
+/>
+
+<Route
+  path="/my-orders/:id"
+  element={
+    <ProtectedRoute>
+      <OrderDetails />
+    </ProtectedRoute>
+  }
+/>
       </Routes>
+   
     </div>
   )
 }

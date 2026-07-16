@@ -4,6 +4,7 @@ import {
   getProduct,
   updateProduct,
 } from "../../api/productApi";
+import { toast } from "react-toastify";
 
 const EditProduct = () => {
   const { id } = useParams();
@@ -60,11 +61,11 @@ const EditProduct = () => {
     try {
       const res = await updateProduct(id, formData);
 
-      alert(res.data.message);
+      toast.success(res.data.message);
 
       navigate("/admin/products");
     } catch (error) {
-      alert(
+      toast.error(
         error.response?.data?.message ||
           "Failed to update product."
       );

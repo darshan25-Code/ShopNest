@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createProduct } from "../../api/productApi";
+import { toast } from "react-toastify";
 
 const AddProduct = () => {
 
@@ -30,12 +31,12 @@ const AddProduct = () => {
   try {
     const res = await createProduct(formData);
 
-    alert(res.data.message);
+    toast.success(res.data.message);
 
     navigate("/admin/products");
 
   } catch (error) {
-    alert(
+    toast.error(
       error.response?.data?.message || "Failed to add product."
     );
   }

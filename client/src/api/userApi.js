@@ -23,3 +23,28 @@ export const changePassword = (data) =>
       Authorization: `Bearer ${localStorage.getItem("token")}`,
     },
   });
+
+  export const getAllUsers = () =>
+  API.get("/users", {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
+
+export const deleteUser = (id) =>
+  API.delete(`/users/${id}`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
+
+export const updateUserRole = (id, role) =>
+  API.put(
+    `/users/${id}/role`,
+    { role },
+    {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    }
+  );

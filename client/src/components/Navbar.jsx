@@ -6,7 +6,6 @@ import { useAuth } from "../context/AuthContext";
 const Navbar = () => {
   const navigate = useNavigate();
   const { cart } = useCart();
-
   const { user, logout } = useAuth();
 
   const totalItems = cart.reduce(
@@ -23,7 +22,6 @@ const Navbar = () => {
     <nav className="bg-white shadow-md">
       <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
 
-        {/* Logo */}
         <Link
           to="/"
           className="text-2xl font-bold text-blue-600"
@@ -31,7 +29,6 @@ const Navbar = () => {
           ShopNest
         </Link>
 
-        {/* Navigation */}
         <div className="flex items-center gap-6">
 
           <Link
@@ -41,7 +38,15 @@ const Navbar = () => {
             Home
           </Link>
 
-          {/* Show only if Admin */}
+          {user && (
+            <Link
+              to="/my-orders"
+              className="hover:text-blue-600 transition"
+            >
+              My Orders
+            </Link>
+          )}
+
           {user?.role === "admin" && (
             <Link
               to="/admin"
