@@ -27,7 +27,7 @@ const Register = () => {
     try {
       setLoading(true);
 
-      const res = await registerUser(formData);
+      await registerUser(formData);
 
       toast.success("Registration Successful");
 
@@ -42,21 +42,22 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
-      <div className="bg-white shadow-lg rounded-xl p-8 w-full max-w-md">
+    <div className="min-h-screen bg-gray-100 flex items-center justify-center px-4">
+      <div className="w-full max-w-md bg-white rounded-2xl shadow-xl p-8">
 
-        <h1 className="text-3xl font-bold text-center mb-6">
-          Create Account
+        <h1 className="text-3xl font-bold text-center text-blue-600 mb-2">
+          ShopNest
         </h1>
 
-        <form
-          onSubmit={handleSubmit}
-          className="space-y-5"
-        >
+        <p className="text-center text-gray-500 mb-8">
+          Create your account
+        </p>
+
+        <form onSubmit={handleSubmit} className="space-y-5">
 
           <div>
-            <label className="block mb-2 font-medium">
-              Name
+            <label className="block mb-2 font-medium text-gray-700">
+              Full Name
             </label>
 
             <input
@@ -64,14 +65,14 @@ const Register = () => {
               name="name"
               value={formData.name}
               onChange={handleChange}
-              placeholder="Enter your name"
-              className="w-full border rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Enter your full name"
+              className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
               required
             />
           </div>
 
           <div>
-            <label className="block mb-2 font-medium">
+            <label className="block mb-2 font-medium text-gray-700">
               Email
             </label>
 
@@ -81,13 +82,13 @@ const Register = () => {
               value={formData.email}
               onChange={handleChange}
               placeholder="Enter your email"
-              className="w-full border rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
               required
             />
           </div>
 
           <div>
-            <label className="block mb-2 font-medium">
+            <label className="block mb-2 font-medium text-gray-700">
               Password
             </label>
 
@@ -96,8 +97,8 @@ const Register = () => {
               name="password"
               value={formData.password}
               onChange={handleChange}
-              placeholder="Enter your password"
-              className="w-full border rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Create a password"
+              className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
               required
             />
           </div>
@@ -105,18 +106,22 @@ const Register = () => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg transition"
+            className={`w-full py-3 rounded-lg text-white font-semibold transition ${
+              loading
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-blue-600 hover:bg-blue-700"
+            }`}
           >
-            {loading ? "Registering..." : "Register"}
+            {loading ? "Registering..." : "Create Account"}
           </button>
 
         </form>
 
-        <p className="text-center mt-6">
+        <p className="text-center mt-6 text-gray-600">
           Already have an account?{" "}
           <Link
             to="/login"
-            className="text-blue-600 font-semibold"
+            className="text-blue-600 font-semibold hover:underline"
           >
             Login
           </Link>

@@ -129,20 +129,14 @@ const Products = () => {
                     >
                       Delete
                     </button>
-
                   </td>
-
                 </tr>
-
               ))}
 
             </tbody>
-
           </table>
-
         </div>
       )}
-
     </div>
   );
 };

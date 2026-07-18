@@ -1,60 +1,125 @@
 import { Link } from "react-router-dom";
+import { FaStar, FaEye } from "react-icons/fa";
 import { useCart } from "../context/CartContext";
 
 const ProductCard = ({ product }) => {
+  const { addToCart } = useCart();
 
-    const { addToCart } = useCart();
+  const discount =
+    product.oldPrice && product.oldPrice > product.price
+      ? Math.round(
+          ((product.oldPrice - product.price) / product.oldPrice) * 100
+        )
+      : 0;
+
+  const isNew =
+    Date.now() - new Date(product.createdAt).getTime() <
+    1000 * 60 * 60 * 24 * 30;
 
   return (
-    <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-      
-      {/* Product Image & Info */}
+    <div className="group relative overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
+      <div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-transparent opacity-0 group-hover:opacity-100 transition duration-500" />
+
       <Link to={`/product/${product._id}`}>
-        <img
-          src={product.image}
-          alt={product.name}
-          className="w-full h-56 object-cover"
-        /> 
 
-        <div className="p-4">
-          <p className="text-sm text-gray-500">
-            {product.category}
-          </p>
+        <div className="relative overflow-hidden">
 
-          <h2 className="text-xl font-semibold mt-2 line-clamp-1">
-            {product.name}
-          </h2>
+          <img
+            src={product.image}
+            alt={product.name}
+            className="w-full h-56 sm:h-64 object-cover transition duration-700 group-hover:scale-110"
+          />
 
-          <p className="text-2xl font-bold text-blue-600 mt-3">
-            ₹{product.price}
-          </p>
+          {discount > 0 && (
+            <span className="absolute top-3 left-3 bg-red-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow">
+              -{discount}% OFF
+            </span>
+          )}
 
-           <p
-    className={`mt-2 text-sm font-medium ${
-      product.stock > 0 ? "text-green-600" : "text-red-600"
-    }`}
-  >
-    {product.stock > 0 ? "In Stock" : "Out of Stock"}
-  </p>
+          {isNew && (
+            <span className="absolute top-3 right-3 bg-green-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow">
+              NEW
+            </span>
+          )}
+
+          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition duration-500 flex items-center justify-center">
+
+            <div className="bg-white/90 backdrop-blur-md rounded-full p-4 shadow-lg">
+              <FaEye
+                size={22}
+                className="text-blue-600"
+              />
+            </div>
+          </div>
         </div>
       </Link>
 
-      {/* Button */}
-      <div className="px-4 pb-4">
+      <div className="p-5">
+
+        <p className="text-sm font-medium text-blue-600">
+          {product.brand}
+        </p>
+
+        <h2 className="mt-2 text-lg font-bold text-gray-800 line-clamp-2 h-14">
+          {product.name}
+        </h2>
+
+        <p className="text-sm text-gray-500 mt-1">
+          {product.category}
+        </p>
+
+        <div className="flex items-center gap-1 mt-3">
+          <FaStar className="text-yellow-400" />
+
+          <span className="font-semibold">
+            {product.rating.toFixed(1)}
+          </span>
+
+          <span className="text-gray-500 text-sm">
+            ({product.numReviews} Reviews)
+          </span>
+        </div>
+
+        <div className="flex items-center gap-3 mt-4">
+
+          <span className="text-2xl font-bold text-blue-600">
+            ₹{product.price}
+          </span>
+
+          {product.oldPrice && product.oldPrice > product.price && (
+            <span className="text-gray-400 line-through">
+              ₹{product.oldPrice}
+            </span>
+          )}
+
+        </div>
+
+        <div className="mt-4">
+
+          {product.stock > 0 ? (
+            <span className="text-green-600 font-medium">
+              ✔ {product.stock} In Stock
+            </span>
+          ) : (
+            <span className="text-red-600 font-medium">
+              ✖ Out of Stock
+            </span>
+          )}
+
+        </div>
+
         <button
-  onClick={() => {
-  console.log("Button Clicked");
-  addToCart(product);
-}}
-  disabled={product.stock === 0}
-  className={`w-full py-2 rounded-lg transition duration-300 ${
-    product.stock > 0
-      ? "bg-blue-600 hover:bg-blue-700 text-white cursor-pointer"
-      : "bg-gray-400 text-white cursor-not-allowed"
-  }`}
->
-  {product.stock > 0 ? "Add to Cart" : "Out of Stock"}
-</button>
+          onClick={() => addToCart(product)}
+          disabled={product.stock === 0}
+          className={`mt-6 w-full py-3 rounded-xl font-semibold transition-all duration-300 ${
+            product.stock > 0
+              ? "bg-blue-600 text-white hover:bg-blue-700 hover:scale-[1.02] active:scale-95"
+              : "bg-gray-300 text-gray-500 cursor-not-allowed"
+          }`}
+        >
+          {product.stock > 0 ? "Add To Cart" : "Out Of Stock"}
+        </button>
+
       </div>
     </div>
   );

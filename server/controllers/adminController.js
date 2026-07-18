@@ -7,7 +7,7 @@ const getDashboardStats = async (req, res) => {
 
     const totalUsers = await User.countDocuments();
 
-    // We'll implement Orders later
+    
     const totalOrders = 0;
 
     const totalRevenue = 0;

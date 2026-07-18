@@ -61,7 +61,6 @@ const ChangePassword = () => {
         onSubmit={handleSubmit}
         className="space-y-6"
       >
-
         <div>
           <label className="block mb-2 font-medium">
             Current Password
@@ -113,9 +112,7 @@ const ChangePassword = () => {
         >
           {loading ? "Changing Password..." : "Change Password"}
         </button>
-
       </form>
-
     </div>
   );
 };

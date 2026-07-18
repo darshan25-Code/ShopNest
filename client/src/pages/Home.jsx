@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { FaSearch } from "react-icons/fa";
 import ProductCard from "../components/ProductCard";
 import { getProducts } from "../api/productApi";
 
@@ -8,7 +9,6 @@ const Home = () => {
   const [category, setCategory] = useState("All");
   const [loading, setLoading] = useState(true);
 
-  // Fetch Products from Backend
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -24,13 +24,11 @@ const Home = () => {
     fetchProducts();
   }, []);
 
-  // Dynamic Categories
   const categories = [
     "All",
     ...new Set(products.map((product) => product.category)),
   ];
 
-  // Search + Category Filter
   const filteredProducts = products.filter((product) => {
     const matchesSearch = product.name
       .toLowerCase()
@@ -44,8 +42,8 @@ const Home = () => {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-[70vh]">
-        <h1 className="text-3xl font-bold">
+      <div className="flex justify-center items-center min-h-[70vh]">
+        <h1 className="text-2xl sm:text-3xl font-bold">
           Loading Products...
         </h1>
       </div>
@@ -53,40 +51,42 @@ const Home = () => {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
 
-      {/* Hero Section */}
-      <section className="bg-blue-600 text-white rounded-xl p-10 text-center">
-        <h1 className="text-5xl font-bold mb-4">
+      {/* Hero */}
+      <section className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-2xl p-8 sm:p-12 lg:p-16 text-center shadow-lg">
+        <h1 className="text-3xl sm:text-5xl font-bold mb-4">
           Welcome to ShopNest
         </h1>
 
-        <p className="text-lg">
-          Discover the latest products at the best prices.
+        <p className="text-sm sm:text-lg text-blue-100 max-w-2xl mx-auto">
+          Discover premium products at unbeatable prices. Shop smart, shop fast, shop with confidence.
         </p>
       </section>
 
       {/* Search */}
-      <div className="mt-10">
+      <div className="mt-8 relative">
+        <FaSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
+
         <input
           type="text"
           placeholder="Search products..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full border border-gray-300 rounded-xl py-3 pl-12 pr-4 focus:ring-2 focus:ring-blue-500 focus:outline-none"
         />
       </div>
 
       {/* Categories */}
-      <div className="mt-8 flex flex-wrap gap-3">
+      <div className="mt-6 flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
         {categories.map((item) => (
           <button
             key={item}
             onClick={() => setCategory(item)}
-            className={`px-4 py-2 rounded-lg transition ${
+            className={`whitespace-nowrap px-5 py-2 rounded-full font-medium transition ${
               category === item
-                ? "bg-blue-600 text-white"
-                : "bg-gray-200 hover:bg-gray-300"
+                ? "bg-blue-600 text-white shadow-md"
+                : "bg-gray-100 hover:bg-blue-100"
             }`}
           >
             {item}
@@ -94,30 +94,34 @@ const Home = () => {
         ))}
       </div>
 
-      {/* Products */}
-      <div className="mt-8">
-        <h2 className="text-2xl font-semibold mb-6">
+      {/* Heading */}
+      <div className="mt-10 flex justify-between items-center">
+        <h2 className="text-2xl sm:text-3xl font-bold">
           Products
         </h2>
 
-        {filteredProducts.length === 0 ? (
-          <div className="text-center py-16">
-            <h2 className="text-2xl font-semibold text-gray-500">
-              No Products Found
-            </h2>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {filteredProducts.map((product) => (
-              <ProductCard
-                key={product._id}
-                product={product}
-              />
-            ))}
-          </div>
-        )}
+        <span className="text-gray-500 text-sm sm:text-base">
+          {filteredProducts.length} Products
+        </span>
       </div>
 
+      {/* Products */}
+      {filteredProducts.length === 0 ? (
+        <div className="text-center py-20">
+          <h2 className="text-2xl font-semibold text-gray-500">
+            No Products Found
+          </h2>
+        </div>
+      ) : (
+        <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          {filteredProducts.map((product) => (
+            <ProductCard
+              key={product._id}
+              product={product}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 };

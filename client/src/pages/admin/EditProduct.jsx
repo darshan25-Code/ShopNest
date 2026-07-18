@@ -1,9 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import {
-  getProduct,
-  updateProduct,
-} from "../../api/productApi";
+import {getProduct,updateProduct,} from "../../api/productApi";
 import { toast } from "react-toastify";
 
 const EditProduct = () => {
@@ -82,7 +79,6 @@ const EditProduct = () => {
 
   return (
     <div className="max-w-3xl mx-auto px-6 py-10">
-
       <div className="bg-white shadow-lg rounded-xl p-8">
 
         <h1 className="text-3xl font-bold mb-8">
@@ -93,7 +89,6 @@ const EditProduct = () => {
           onSubmit={handleSubmit}
           className="space-y-6"
         >
-
           <input
             type="text"
             name="name"
@@ -174,15 +169,11 @@ const EditProduct = () => {
           />
 
           <button
-            className="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg"
-          >
+            className="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg">
             Update Product
           </button>
-
         </form>
-
       </div>
-
     </div>
   );
 };

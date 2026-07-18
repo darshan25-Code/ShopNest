@@ -78,11 +78,9 @@ const EditProfile = () => {
       <h1 className="text-3xl font-bold mb-8">
         Edit Profile
       </h1>
-
       <form
         onSubmit={handleSubmit}
-        className="space-y-6"
-      >
+        className="space-y-6" >
 
         <div>
           <label className="block mb-2">
@@ -114,13 +112,10 @@ const EditProfile = () => {
 
         <button
           disabled={saving}
-          className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg"
-        >
+          className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg">
           {saving ? "Saving..." : "Save Changes"}
         </button>
-
       </form>
-
     </div>
   );
 };

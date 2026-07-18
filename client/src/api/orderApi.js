@@ -20,13 +20,21 @@ export const getMyOrders = () =>
     },
   });
 
+// Get Single Order
+export const getSingleOrder = (id) =>
+  API.get(`/orders/${id}`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
+
 // ============================
 // Admin APIs
 // ============================
 
 // Get All Orders
 export const getAllOrders = () =>
-  API.get("/orders/admin", {
+  API.get("/orders", {
     headers: {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
     },
@@ -35,7 +43,7 @@ export const getAllOrders = () =>
 // Update Order Status
 export const updateOrderStatus = (orderId, status) =>
   API.put(
-    `/orders/${orderId}/status`,
+    `/orders/${orderId}`,
     { status },
     {
       headers: {
@@ -43,10 +51,3 @@ export const updateOrderStatus = (orderId, status) =>
       },
     }
   );
-
-  export const getSingleOrder = (id) =>
-  API.get(`/orders/${id}`, {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
-    },
-  });

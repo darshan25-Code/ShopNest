@@ -1,108 +1,194 @@
-import { Link, useNavigate } from "react-router-dom";
-import { FaShoppingCart } from "react-icons/fa";
+import { useState } from "react";
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import { FaShoppingCart, FaBars, FaTimes } from "react-icons/fa";
 import { useCart } from "../context/CartContext";
 import { useAuth } from "../context/AuthContext";
+import { toast } from "react-toastify";
 
 const Navbar = () => {
   const navigate = useNavigate();
   const { cart } = useCart();
   const { user, logout } = useAuth();
+  const [menuOpen, setMenuOpen] = useState(false);
 
-  const totalItems = cart.reduce(
-    (total, item) => total + item.quantity,
-    0
-  );
+  const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
 
   const handleLogout = () => {
     logout();
+    toast.success("Logged out successfully");
+    setMenuOpen(false);
     navigate("/");
   };
 
-  return (
-    <nav className="bg-white shadow-md">
-      <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+  const navClass = ({ isActive }) =>
+    `transition hover:text-blue-600 ${isActive ? "text-blue-600 font-semibold" : "text-gray-700"}`;
 
-        <Link
-          to="/"
-          className="text-2xl font-bold text-blue-600"
-        >
+  return (
+    <nav className="sticky top-0 z-50 bg-white shadow-md">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+        <Link to="/" className="text-2xl font-bold text-blue-600">
           ShopNest
         </Link>
 
-        <div className="flex items-center gap-6">
-
-          <Link
-            to="/"
-            className="hover:text-blue-600 transition"
-          >
-            Home
-          </Link>
+        {/* Desktop Menu */}
+        <div className="hidden md:flex items-center gap-6">
+          <NavLink to="/" className={navClass}>Home</NavLink>
 
           {user && (
-            <Link
-              to="/my-orders"
-              className="hover:text-blue-600 transition"
-            >
+            <NavLink to="/my-orders" className={navClass}>
               My Orders
-            </Link>
+            </NavLink>
           )}
 
           {user?.role === "admin" && (
-            <Link
-              to="/admin"
-              className="hover:text-blue-600 transition"
-            >
+            <NavLink to="/admin" className={navClass}>
               Admin
-            </Link>
+            </NavLink>
           )}
 
           {!user ? (
             <>
-              <Link
-                to="/login"
-                className="hover:text-blue-600 transition"
-              >
-                Login
-              </Link>
-
-              <Link
-                to="/register"
-                className="hover:text-blue-600 transition"
-              >
-                Register
-              </Link>
+              <NavLink to="/login" className={navClass}>Login</NavLink>
+              <NavLink to="/register" className={navClass}>Register</NavLink>
             </>
           ) : (
             <>
-              <Link
-                to="/profile"
-                className="font-medium hover:text-blue-600 transition"
-              >
-                Hello, {user.name} 👋
-              </Link>
+              <NavLink to="/profile" className={navClass}>
+                Hello, {user.name}
+              </NavLink>
 
               <button
                 onClick={handleLogout}
-                className="text-red-500 hover:text-red-600"
+                className="text-red-500 hover:text-red-600 transition"
               >
                 Logout
               </button>
             </>
           )}
 
-          <Link
-            to="/cart"
-            className="relative"
-          >
+          <NavLink to="/cart" className="relative">
             <FaShoppingCart size={22} />
+            {totalItems > 0 && (
+              <span className="absolute -top-2 -right-3 bg-red-500 text-white text-xs min-w-[20px] h-5 flex items-center justify-center rounded-full">
+                {totalItems}
+              </span>
+            )}
+          </NavLink>
+        </div>
 
-            <span className="absolute -top-2 -right-3 bg-red-500 text-white text-xs px-2 rounded-full">
-              {totalItems}
-            </span>
-          </Link>
+        {/* Mobile Right */}
+        <div className="md:hidden flex items-center gap-5">
+          <NavLink to="/cart" className="relative">
+            <FaShoppingCart size={22} />
+            {totalItems > 0 && (
+              <span className="absolute -top-2 -right-3 bg-red-500 text-white text-xs min-w-[20px] h-5 flex items-center justify-center rounded-full">
+                {totalItems}
+              </span>
+            )}
+          </NavLink>
 
+          <button onClick={() => setMenuOpen(!menuOpen)}>
+            {menuOpen ? <FaTimes size={22} /> : <FaBars size={22} />}
+          </button>
         </div>
       </div>
+
+      {/* Mobile Menu */}
+     {menuOpen && (
+  <div className="md:hidden border-t bg-white shadow-lg">
+    <div className="flex flex-col p-4 gap-4">
+
+      <NavLink
+        to="/"
+        onClick={() => setMenuOpen(false)}
+        className={({ isActive }) =>
+          `block transition hover:text-blue-600 ${
+            isActive ? "text-blue-600 font-semibold" : "text-gray-700"
+          }`
+        }
+      >
+        Home
+      </NavLink>
+
+      {user && (
+        <NavLink
+          to="/my-orders"
+          onClick={() => setMenuOpen(false)}
+          className={({ isActive }) =>
+            `block transition hover:text-blue-600 ${
+              isActive ? "text-blue-600 font-semibold" : "text-gray-700"
+            }`
+          }
+        >
+          My Orders
+        </NavLink>
+      )}
+
+      {user?.role === "admin" && (
+        <NavLink
+          to="/admin"
+          onClick={() => setMenuOpen(false)}
+          className={({ isActive }) =>
+            `block transition hover:text-blue-600 ${
+              isActive ? "text-blue-600 font-semibold" : "text-gray-700"
+            }`
+          }
+        >
+          Admin
+        </NavLink>
+      )}
+
+      {!user ? (
+        <>
+          <NavLink
+            to="/login"
+            onClick={() => setMenuOpen(false)}
+            className={({ isActive }) =>
+              `block transition hover:text-blue-600 ${
+                isActive ? "text-blue-600 font-semibold" : "text-gray-700"
+              }`
+            }
+          >
+            Login
+          </NavLink>
+
+          <NavLink
+            to="/register"
+            onClick={() => setMenuOpen(false)}
+            className={({ isActive }) =>
+              `block transition hover:text-blue-600 ${
+                isActive ? "text-blue-600 font-semibold" : "text-gray-700"
+              }`
+            }
+          >
+            Register
+          </NavLink>
+        </>
+      ) : (
+        <>
+          <NavLink
+            to="/profile"
+            onClick={() => setMenuOpen(false)}
+            className={({ isActive }) =>
+              `block transition hover:text-blue-600 ${
+                isActive ? "text-blue-600 font-semibold" : "text-gray-700"
+              }`
+            }
+          >
+            Profile
+          </NavLink>
+
+          <button
+            onClick={handleLogout}
+            className="block w-full text-left text-red-500 hover:text-red-600"
+          >
+            Logout
+          </button>
+        </>
+      )}
+    </div>
+  </div>
+)}
     </nav>
   );
 };

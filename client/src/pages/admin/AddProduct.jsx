@@ -200,9 +200,7 @@ const AddProduct = () => {
           </button>
 
         </form>
-
       </div>
-
     </div>
   );
 };

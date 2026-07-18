@@ -150,11 +150,8 @@ const Cart = () => {
 >
   Proceed to Checkout
 </Link>
-
         </div>
-
       </div>
-
     </div>
   );
 };

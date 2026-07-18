@@ -1,10 +1,6 @@
 import { useEffect, useState } from "react";
 import { FaSearch, FaTrash, FaUserShield } from "react-icons/fa";
-import {
-    getAllUsers,
-    deleteUser,
-    updateUserRole,
-} from "../../api/userApi";
+import {getAllUsers,deleteUser,updateUserRole,} from "../../api/userApi";
 import { useAuth } from "../../context/AuthContext";
 import { toast } from "react-toastify";
 
@@ -137,52 +133,36 @@ const Users = () => {
                     <table className="min-w-full">
 
                         <thead className="bg-gray-100">
-
                             <tr>
-
                                 <th className="text-left px-6 py-4">
                                     User
                                 </th>
-
                                 <th className="text-left px-6 py-4">
                                     Email
                                 </th>
-
                                 <th className="text-center px-6 py-4">
                                     Role
                                 </th>
-
                                 <th className="text-center px-6 py-4">
                                     Actions
                                 </th>
-
                             </tr>
-
                         </thead>
 
                         <tbody>
 
                             {filteredUsers.map((user) => (
-
                                 <tr
                                     key={user._id}
                                     className="border-b hover:bg-gray-50 transition"
                                 >
-
                                     {/* User */}
-
                                     <td className="px-6 py-5">
-
                                         <div className="flex items-center gap-4">
-
                                             <div className="w-12 h-12 rounded-full bg-blue-600 text-white flex items-center justify-center text-lg font-bold">
-
                                                 {user.name.charAt(0).toUpperCase()}
-
                                             </div>
-
                                             <div>
-
                                                 <h3 className="font-semibold text-gray-800">
                                                     {user.name}
                                                 </h3>
@@ -192,47 +172,32 @@ const Users = () => {
                                                 </p>
 
                                             </div>
-
                                         </div>
-
                                     </td>
 
                                     {/* Email */}
-
                                     <td className="px-6 py-5 text-gray-700">
                                         {user.email}
                                     </td>
 
                                     {/* Role */}
-
                                     <td className="px-6 py-5 text-center">
-
                                         {user.role === "admin" ? (
-
                                             <span className="bg-green-100 text-green-700 px-4 py-1 rounded-full text-sm font-semibold">
 
                                                 Admin
-
                                             </span>
 
                                         ) : (
-
                                             <span className="bg-blue-100 text-blue-700 px-4 py-1 rounded-full text-sm font-semibold">
-
                                                 User
-
                                             </span>
-
                                         )}
-
                                     </td>
 
                                     {/* Actions */}
-
                                     <td className="px-6 py-5">
-
                                         <div className="flex justify-center gap-3">
-
                                             <button
                                                 disabled={currentUser._id === user._id}
                                                 onClick={() => handleChangeRole(user)}
@@ -242,7 +207,6 @@ const Users = () => {
                                                     }`}
                                             >
                                                 <FaUserShield />
-
                                                 {currentUser._id === user._id
                                                     ? "Current Admin"
                                                     : user.role === "admin"
@@ -258,25 +222,18 @@ const Users = () => {
                                                     }`}
                                             >
                                                 <FaTrash />
-
                                                 {currentUser._id === user._id
                                                     ? "Current Admin"
                                                     : "Delete"}
                                             </button>
                                         </div>
                                     </td>
-
                                 </tr>
-
                             ))}
-
                         </tbody>
-
                     </table>
                 )}
-
             </div>
-
         </div>
     );
 };

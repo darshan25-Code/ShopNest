@@ -3,11 +3,14 @@ const Order = require("../models/Order");
 const placeOrder = async (req, res) => {
   try {
     const {
-      products,
-      shippingAddress,
-      paymentMethod,
-      totalAmount,
-    } = req.body;
+  products,
+  shippingAddress,
+  paymentMethod,
+  paymentStatus,
+  razorpayPaymentId,
+  razorpayOrderId,
+  totalAmount,
+} = req.body;
 
     if (
       !products ||
@@ -21,13 +24,16 @@ const placeOrder = async (req, res) => {
       });
     }
 
-    const order = await Order.create({
-      user: req.user.id,
-      products,
-      shippingAddress,
-      paymentMethod: paymentMethod || "COD",
-      totalAmount,
-    });
+const order = await Order.create({
+  user: req.user.id,
+  products,
+  shippingAddress,
+  paymentMethod: paymentMethod || "COD",
+  paymentStatus: paymentStatus || "Pending",
+  razorpayPaymentId,
+  razorpayOrderId,
+  totalAmount,
+});
 
     res.status(201).json({
       success: true,

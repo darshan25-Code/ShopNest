@@ -1,10 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-  FaBoxOpen,
-  FaUsers,
-  FaShoppingCart,
-  FaRupeeSign,
-} from "react-icons/fa";
+import { FaBoxOpen,FaUsers,FaShoppingCart,FaRupeeSign,} from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { getDashboardStats } from "../api/dashboardApi";
 
@@ -147,7 +142,6 @@ const AdminDashboard = () => {
         </Link>
 
       </div>
-
       {/* Recent Orders */}
 
       <div className="mt-12">
@@ -161,21 +155,13 @@ const AdminDashboard = () => {
           <table className="w-full">
 
             <thead className="bg-gray-100">
-
               <tr>
-
                 <th className="p-4">Customer</th>
-
                 <th className="p-4">Email</th>
-
                 <th className="p-4">Total</th>
-
                 <th className="p-4">Status</th>
-
               </tr>
-
             </thead>
-
             <tbody>
 
               {stats.recentOrders.map((order) => (
@@ -188,11 +174,9 @@ const AdminDashboard = () => {
                   <td className="p-4">
                     {order.user?.name}
                   </td>
-
                   <td className="p-4">
                     {order.user?.email}
                   </td>
-
                   <td className="p-4 font-bold">
                     ₹{order.totalAmount}
                   </td>
@@ -200,19 +184,12 @@ const AdminDashboard = () => {
                   <td className="p-4">
                     {order.orderStatus}
                   </td>
-
                 </tr>
-
               ))}
-
             </tbody>
-
           </table>
-
         </div>
-
       </div>
-
     </div>
   );
 };

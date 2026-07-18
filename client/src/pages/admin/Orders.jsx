@@ -1,8 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-  getAllOrders,
-  updateOrderStatus,
-} from "../../api/orderApi";
+import {getAllOrders,updateOrderStatus,} from "../../api/orderApi";
 import { toast } from "react-toastify";
 
 const Orders = () => {
@@ -90,64 +87,44 @@ const Orders = () => {
       <div className="bg-white rounded-xl shadow-lg overflow-x-auto">
 
         <table className="w-full">
-
           <thead className="bg-gray-100">
-
             <tr className="text-gray-700">
-
               <th className="p-4">Order ID</th>
-
               <th className="p-4">Customer</th>
-
               <th className="p-4">Email</th>
-
               <th className="p-4">Products</th>
-
               <th className="p-4">Total</th>
-
               <th className="p-4">Payment</th>
-
               <th className="p-4">Status</th>
-
               <th className="p-4">Ordered On</th>
-
             </tr>
-
           </thead>
 
           <tbody>
 
             {orders.map((order) => (
-
               <tr
                 key={order._id}
                 className="border-b text-center hover:bg-gray-50 transition"
               >
-
                 <td className="p-4 font-medium">
                   #{order._id.slice(-8)}
                 </td>
-
                 <td className="p-4">
                   {order.user?.name}
                 </td>
-
                 <td className="p-4">
                   {order.user?.email}
                 </td>
-
                 <td className="p-4">
                   {order.products.length}
                 </td>
-
                 <td className="p-4 font-bold text-blue-600">
                   ₹{order.totalAmount}
                 </td>
-
                 <td className="p-4">
                   {order.paymentMethod}
                 </td>
-
                 <td className="p-4">
 
                   <div
@@ -188,9 +165,7 @@ const Orders = () => {
           </tbody>
 
         </table>
-
       </div>
-
     </div>
   );
 };
