@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { useAuth } from "./AuthContext";
+import { toast } from "react-toastify";
 
 const CartContext = createContext();
 
@@ -30,33 +31,25 @@ export const CartProvider = ({ children }) => {
     );
   }, [cart, user]);
 
-  const addToCart = (product) => {
-    setCart((prevCart) => {
-      const existingProduct = prevCart.find(
-        (item) => item._id === product._id
-      );
+const addToCart = (product) => {
+  const existing = cart.find((item) => item._id === product._id);
 
-      if (existingProduct) {
-        return prevCart.map((item) =>
-          item._id === product._id
-            ? {
-                ...item,
-                quantity: item.quantity + 1,
-              }
-            : item
-        );
-      }
+  if (existing) {
+    setCart(
+      cart.map((item) =>
+        item._id === product._id
+          ? { ...item, quantity: item.quantity + 1 }
+          : item
+      )
+    );
 
-      return [
-        ...prevCart,
-        {
-          ...product,
-          quantity: 1,
-        },
-      ];
-    });
-  };
+    toast.success("Quantity Updated 🛒");
+  } else {
+    setCart([...cart, { ...product, quantity: 1 }]);
 
+    toast.success("Product Added to Cart 🛒");
+  }
+};
   const increaseQuantity = (id) => {
     setCart((prevCart) =>
       prevCart.map((item) =>
