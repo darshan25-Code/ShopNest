@@ -16,6 +16,9 @@ const createRazorpayOrder = async (req, res) => {
       receipt: `receipt_${Date.now()}`,
     };
 
+    console.log("KEY:", process.env.RAZORPAY_KEY_ID);
+console.log("SECRET EXISTS:", !!process.env.RAZORPAY_KEY_SECRET);
+
     const order = await razorpay.orders.create(options);
 
     res.status(200).json({
