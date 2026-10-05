@@ -1,3 +1,4 @@
+
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
@@ -6,6 +7,9 @@ import { CartProvider } from "./context/CartContext";
 import { AuthProvider } from './context/AuthContext.jsx';
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import ReactGA from "react-ga4";
+
+ReactGA.initialize("G-7SG5129P0Y");
 
 createRoot(document.getElementById('root')).render(
  <StrictMode>
