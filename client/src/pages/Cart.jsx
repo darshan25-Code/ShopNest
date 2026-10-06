@@ -1,5 +1,6 @@
 import { useCart } from "../context/CartContext";
 import { Link } from "react-router-dom";
+import ReactGA from "react-ga4";
 
 const Cart = () => {
   const {
@@ -95,12 +96,22 @@ const Cart = () => {
                   Subtotal: ₹{item.price * item.quantity}
                 </p>
 
-                <button
-                  onClick={() => removeFromCart(item._id)}
-                  className="mt-5 bg-red-500 hover:bg-red-600 text-white px-5 py-2 rounded-lg transition"
-                >
-                  Remove
-                </button>
+               <button
+  onClick={() => {
+    ReactGA.event("remove_from_cart", {
+      product_id: item._id,
+      product_name: item.name,
+      category: item.category,
+      price: item.price,
+      quantity: item.quantity,
+    });
+
+    removeFromCart(item._id);
+  }}
+  className="mt-5 bg-red-500 hover:bg-red-600 text-white px-5 py-2 rounded-lg transition"
+>
+  Remove
+</button>
 
               </div>
             </div>
