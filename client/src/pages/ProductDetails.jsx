@@ -44,10 +44,19 @@ const fetchProduct = async () => {
   }
 };
 
-  const handleAddToCart = () => {
-    for (let i = 0; i < quantity; i++) addToCart(product);
-    toast.success("Product added to cart");
-  };
+const handleAddToCart = () => {
+  for (let i = 0; i < quantity; i++) addToCart(product);
+
+  ReactGA.event("add_to_cart", {
+    product_id: product._id,
+    product_name: product.name,
+    category: product.category,
+    price: product.price,
+    quantity: quantity,
+  });
+
+  toast.success("Product added to cart");
+};
   const handleBuyNow = () => {
     for (let i = 0; i < quantity; i++) {
       addToCart(product);
