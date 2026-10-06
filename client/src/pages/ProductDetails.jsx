@@ -6,6 +6,7 @@ import { useCart } from "../context/CartContext";
 import { useAuth } from "../context/AuthContext";
 import { getProduct, addReview } from "../api/productApi";
 import { toast } from "react-toastify";
+import ReactGA from "react-ga4";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -24,16 +25,24 @@ const ProductDetails = () => {
     fetchProduct();
   }, [id]);
 
-  const fetchProduct = async () => {
-    try {
-      const res = await getProduct(id);
-      setProduct(res.data.product);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  };
+const fetchProduct = async () => {
+  try {
+    const res = await getProduct(id);
+
+    setProduct(res.data.product);
+
+    ReactGA.event("product_view", {
+      product_id: res.data.product._id,
+      product_name: res.data.product.name,
+      category: res.data.product.category,
+    });
+
+  } catch (error) {
+    console.log(error);
+  } finally {
+    setLoading(false);
+  }
+};
 
   const handleAddToCart = () => {
     for (let i = 0; i < quantity; i++) addToCart(product);
