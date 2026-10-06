@@ -8,6 +8,12 @@ import { getProduct, addReview } from "../api/productApi";
 import { toast } from "react-toastify";
 import ReactGA from "react-ga4";
 
+const trackMatomoEvent = (category, action, name, value) => {
+  if (window._paq) {
+    window._paq.push(["trackEvent", category, action, name, value]);
+  }
+};
+
 const ProductDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -36,6 +42,11 @@ const fetchProduct = async () => {
       product_name: res.data.product.name,
       category: res.data.product.category,
     });
+    trackMatomoEvent(
+  "Product",
+  "View",
+  res.data.product.name
+);
 
   } catch (error) {
     console.log(error);
@@ -54,6 +65,13 @@ const handleAddToCart = () => {
     price: product.price,
     quantity: quantity,
   });
+
+  trackMatomoEvent(
+  "Cart",
+  "Add",
+  product.name,
+  product.price * quantity
+);
 
   toast.success("Product added to cart");
 };
