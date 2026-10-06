@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { FaSearch } from "react-icons/fa";
+import ReactGA from "react-ga4";
 import ProductCard from "../components/ProductCard";
 import { getProducts } from "../api/productApi";
 
@@ -8,6 +9,14 @@ const Home = () => {
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("All");
   const [loading, setLoading] = useState(true);
+
+  const handleSearch = (e) => {
+  if (e.key === "Enter" && search.trim()) {
+    ReactGA.event("search", {
+      search_term: search.trim(),
+    });
+  }
+};
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -73,6 +82,7 @@ const Home = () => {
           placeholder="Search products..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
+          onKeyDown={handleSearch}
           className="w-full border border-gray-300 rounded-xl py-3 pl-12 pr-4 focus:ring-2 focus:ring-blue-500 focus:outline-none"
         />
       </div>
