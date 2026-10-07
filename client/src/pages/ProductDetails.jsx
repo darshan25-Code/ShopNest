@@ -75,14 +75,20 @@ const handleAddToCart = () => {
 
   toast.success("Product added to cart");
 };
-  const handleBuyNow = () => {
-    for (let i = 0; i < quantity; i++) {
-      addToCart(product);
-    }
+const handleBuyNow = () => {
+  for (let i = 0; i < quantity; i++) {
+    addToCart(product);
+  }
 
-    navigate("/checkout");
-  };
+  trackMatomoEvent(
+    "Checkout",
+    "Buy Now",
+    product.name,
+    product.price * quantity
+  );
 
+  navigate("/checkout");
+};
   const handleReviewSubmit = async (e) => {
     e.preventDefault();
     setReviewLoading(true);

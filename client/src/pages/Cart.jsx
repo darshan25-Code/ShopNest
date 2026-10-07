@@ -2,6 +2,18 @@ import { useCart } from "../context/CartContext";
 import { Link } from "react-router-dom";
 import ReactGA from "react-ga4";
 
+const trackMatomoEvent = (category, action, name, value) => {
+  if (window._paq) {
+    window._paq.push([
+      "trackEvent",
+      category,
+      action,
+      name,
+      value,
+    ]);
+  }
+};
+
 const Cart = () => {
   const {
     cart,
@@ -98,16 +110,23 @@ const Cart = () => {
 
                <button
   onClick={() => {
-    ReactGA.event("remove_from_cart", {
-      product_id: item._id,
-      product_name: item.name,
-      category: item.category,
-      price: item.price,
-      quantity: item.quantity,
-    });
+  ReactGA.event("remove_from_cart", {
+    product_id: item._id,
+    product_name: item.name,
+    category: item.category,
+    price: item.price,
+    quantity: item.quantity,
+  });
 
-    removeFromCart(item._id);
-  }}
+  trackMatomoEvent(
+    "Cart",
+    "Remove",
+    item.name,
+    item.price * item.quantity
+  );
+
+  removeFromCart(item._id);
+}}
   className="mt-5 bg-red-500 hover:bg-red-600 text-white px-5 py-2 rounded-lg transition"
 >
   Remove
